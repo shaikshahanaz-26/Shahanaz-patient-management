@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shahanaz | Patient Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+            <div><h2>SHAHANAZ</h2><span>Patient Care System</span></div>
+        </div>
+
+        <div class="menu-label">MAIN MENU</div>
+        <nav>
+            <a href="#dashboard" class="nav-link active"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>
+            <a href="#patients" class="nav-link"><i class="bi bi-people-fill"></i>All Patients</a>
+            <a href="#add-patient" class="nav-link"><i class="bi bi-person-plus-fill"></i>Add Patient</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="support-card">
+                <i class="bi bi-shield-check"></i>
+                <h4>Patient Information</h4>
+                <p>Manage patient records carefully and securely.</p>
+            </div>
+            <div class="sidebar-footer">
+                <div class="avatar">S</div>
+                <div><strong>Shahanaz</strong><small>Administrator</small></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div><span class="breadcrumb">Pages / Overview</span><h2>Patient Dashboard</h2></div>
+            <div class="topbar-right">
+                <div class="date-label"><i class="bi bi-calendar3"></i><span id="currentDate"></span></div>
+                <div class="profile-avatar">S</div>
+            </div>
+        </header>
+
+        <section id="dashboard">
+            <div class="welcome-banner">
+                <div>
+                    <span class="welcome-tag">WELCOME BACK</span>
+                    <h1>Patient Care, Made Simpler.</h1>
+                    <p>Manage patient information and records all in one place.</p>
+                    <button class="primary-btn" onclick="showSection('add-patient')"><i class="bi bi-plus-lg"></i>Add New Patient</button>
+                </div>
+                <div class="banner-icon"><i class="bi bi-hospital"></i></div>
+            </div>
+
+            <div class="section-heading">
+                <div><h3>Overview</h3><p>Patient registration statistics</p></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                    <p>Total Patients</p><h2 id="totalPatients">0</h2><span>Registered patients</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="bi bi-gender-male"></i></div>
+                    <p>Male Patients</p><h2 id="malePatients">0</h2><span>Male registrations</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pink"><i class="bi bi-gender-female"></i></div>
+                    <p>Female Patients</p><h2 id="femalePatients">0</h2><span>Female registrations</span>
+                </div>
+            </div>
+
+            <div class="section-heading">
+                <div><h3>Recent Patients</h3><p>Latest registered patient records</p></div>
+                <button class="text-btn" onclick="showSection('patients')">View All <i class="bi bi-arrow-right"></i></button>
+            </div>
+
+            <div class="table-card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Patient ID</th><th>Name</th><th>Phone</th><th>Gender</th><th>Age</th><th>Problem</th></tr></thead>
+                        <tbody id="recentPatients"><tr><td colspan="6">Loading patients...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="patients" class="hidden">
+            <div class="section-heading page-heading">
+                <div><h3>All Patients</h3><p>View and manage all registered patient records.</p></div>
+                <button class="primary-btn" onclick="showSection('add-patient')"><i class="bi bi-plus-lg"></i>Add Patient</button>
+            </div>
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div><h3>Patient Records</h3><p>Complete patient information</p></div>
+                    <div class="search-box"><i class="bi bi-search"></i><input type="text" id="searchInput" placeholder="Search patients..." oninput="renderPatients()"></div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Age</th><th>Problem</th><th>Actions</th></tr></thead>
+                        <tbody id="patientTable"><tr><td colspan="8">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="add-patient" class="hidden">
+            <div class="section-heading page-heading">
+                <div><h3 id="formTitle">Add New Patient</h3><p>Enter patient details in the form below.</p></div>
+            </div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="form-icon"><i class="bi bi-person-vcard-fill"></i></div>
+                    <div><h3>Patient Information</h3><p>Fill in all the required information.</p></div>
+                </div>
+                <form id="patientForm">
+                    <div class="form-grid">
+                        <div class="form-group"><label for="name">Patient Name *</label><input type="text" id="name" placeholder="Enter full name" maxlength="100" required></div>
+                        <div class="form-group"><label for="email">Email Address *</label><input type="email" id="email" placeholder="example@gmail.com" maxlength="100" required></div>
+                        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" placeholder="Enter phone number" maxlength="15" required></div>
+                        <div class="form-group"><label for="gender">Gender *</label><select id="gender" required><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
+                        <div class="form-group"><label for="age">Age *</label><input type="number" id="age" placeholder="Enter age" min="1" max="120" required></div>
+                        <div class="form-group full-width"><label for="problem">Health Problem / Medical Concern *</label><textarea id="problem" placeholder="Describe the patient's problem..." rows="4" required></textarea></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="resetForm(); showSection('patients')">Cancel</button>
+                        <button type="submit" class="primary-btn"><i class="bi bi-check-circle"></i><span id="submitText">Save Patient</span></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>© 2026 <strong>SHAHANAZ</strong> Patient Management System. All Rights Reserved.</p>
+            <span>Designed with care <i class="bi bi-heart-fill"></i></span>
+        </footer>
+    </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
